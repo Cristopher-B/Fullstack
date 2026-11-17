@@ -2,14 +2,17 @@
 import express from "express"
 import dotenv from "dotenv"
 import routerVeterinarios from "../src/routes/veterinario_routes.js"
+import cors from "cors"
 
 // Inicializaciones
 const app = express()
 
 // Configuraciones
 dotenv.config()
+
 // Middlewares
 app.use(express.json())
+app.use(cors())
 
 // Variables globales
 //app.set("port",3000)
