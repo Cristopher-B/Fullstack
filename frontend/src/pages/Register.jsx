@@ -2,14 +2,32 @@ import { useState } from "react"
 import { MdVisibility, MdVisibilityOff } from "react-icons/md"
 import { Link } from "react-router"
 
+import { useForm } from "react-hook-form"
+import { ToastContainer } from 'react-toastify';
+import { useFetch } from "../hooks/useFetch";
+
 
 
 export const Register = () => {
 
     const [showPassword, setShowPassword] = useState(false)
 
+    // Inicializar hooks
+    const { register, handleSubmit, formState: { errors } } = useForm()
+
+    const { fetchDataBackend, loading } = useFetch()
+
+    // Cors - Conexion con el backend
+    const registerUser = async (dataForm) => {
+        const url = `http://localhost:5000/api/registro`
+        await fetchDataBackend(url, dataForm, "POST")
+    }
+
     return (
         <div className="flex flex-col sm:flex-row h-screen">
+
+            {/*Mostar Notificaciones*/}
+            <ToastContainer/>
 
             <div className="w-full sm:w-1/2 h-screen bg-white flex justify-center items-center">
 
@@ -18,17 +36,19 @@ export const Register = () => {
 
                     <h1 className="text-3xl font-semibold mb-2 text-center uppercase text-gray-500">Bienvenido(a)</h1>
 
-                    <small className="text-gray-400 block my-4 text-sm">Por favor ingresa tus datos</small> 
-                    
+                    <small className="text-gray-400 block my-4 text-sm">Por favor ingresa tus datos</small>
+
                     {/* Formulario */}
-                    <form>
+                    <form onSubmit={handleSubmit(registerUser)}>
 
                         {/* Campo nombre */}
                         <div className="mb-3">
                             <label className="mb-2 block text-sm font-semibold">Nombre</label>
                             <input type="text" placeholder="Ingresa tu nombre" className="block w-full rounded-md border
                             border-gray-300  py-1 px-1.5 text-gray-500"
+                                {...register("nombre", { required: "El nombre es obligatorio" })}
                             />
+                            {errors.nombre && <p className="text-red-800">{errors.nombre.message}</p>}
                         </div>
 
 
@@ -37,7 +57,9 @@ export const Register = () => {
                             <label className="mb-2 block text-sm font-semibold">Apellido</label>
                             <input type="text" placeholder="Ingresa tu apellido" className="block w-full rounded-md border
                             border-gray-300 py-1 px-1.5 text-gray-500"
+                                {...register("apellido", { required: "El apellido es obligatorio" })}
                             />
+                            {errors.apellido && <p className="text-red-800">{errors.apellido.message}</p>}
                         </div>
 
 
@@ -46,15 +68,20 @@ export const Register = () => {
                             <label className="mb-2 block text-sm font-semibold">Dirección</label>
                             <input type="text" placeholder="Ingresa tu dirección de domicilio" className="block w-full 
                             rounded-md border border-gray-300 py-1 px-1.5 text-gray-500"
+                                {...register("direccion", { required: "La dirección es obligatoria" })}
                             />
+                            {errors.direccion && <p className="text-red-800">{errors.direccion.message}</p>}
                         </div>
-                        
+
 
                         {/* Campo celular */}
                         <div className="mb-3">
                             <label className="mb-2 block text-sm font-semibold">Celular</label>
                             <input type="text" inputMode="tel" placeholder="Ingresa tu celular" className="block w-full 
-                            rounded-md border border-gray-300 py-1 px-1.5 text-gray-500" />
+                            rounded-md border border-gray-300 py-1 px-1.5 text-gray-500"
+                                {...register("celular", { required: "El celular es obligatorio" })}
+                            />
+                            {errors.celular && <p className="text-red-800">{errors.celular.message}</p>}
                         </div>
 
 
@@ -62,14 +89,17 @@ export const Register = () => {
                         <div className="mb-3">
                             <label className="mb-2 block text-sm font-semibold">Correo electrónico</label>
                             <input type="email" placeholder="Ingresa tu correo electrónico" className="block w-full rounded-md 
-                            border border-gray-300 py-1 px-1.5 text-gray-500" />
+                            border border-gray-300 py-1 px-1.5 text-gray-500"
+                                {...register("email", { required: "El correo es obligatorio" })}
+                            />
+                            {errors.email && <p className="text-red-800">{errors.email.message}</p>}
                         </div>
 
 
 
                         {/* Campo Contraseña */}
                         <div className="mb-3">
-                            
+
                             <label className="block text-sm font-semibold mb-1">Contraseña</label>
 
                             <div className="relative">
@@ -77,7 +107,9 @@ export const Register = () => {
                                     type={showPassword ? "text" : "password"}
                                     placeholder="************"
                                     className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10"
+                                    {...register("password", { required: "La contraseña es obligatoria" })}
                                 />
+                                {errors.password && <p className="text-red-800">{errors.password.message}</p>}
 
                                 <button
                                     type="button"

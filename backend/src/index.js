@@ -4,5 +4,5 @@ import connection from "./database.js"
 
 connection().catch((err) => console.log(err));
 
-app.listen(app.get("port"), ()=>{console.log("Server on port:",app.get("port"))})
+app.listen(app.get("port"), ()=>{console.log("Server working on port:",app.get("port"))})
 // node --watch src/index.js

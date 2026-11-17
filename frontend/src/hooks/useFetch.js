@@ -39,7 +39,7 @@ export function useFetch() {
             // Cerrar el toast
             toast.dismiss(loadingToast)
             // Mensaje de error, si no hay mensaje mostrar un mensaje por defecto
-            toast.error(error.response?.data?.mesg || "Ocurrió un error insesperado")
+            toast.error(error.response?.data?.mesg || "Ocurrió un error inesperado")
             console.log(error)
         }
         // cambiear el estado del loading a false, sea correcto o erroneo, para que el usuario pueda volver a hacer otra solicitud

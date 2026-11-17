@@ -23,6 +23,10 @@ const registro = async (req, res) => {
 
             // Instanciar
         const nuevoVeterinario = new Veterinario(req.body)
+
+            // Cifrar contraseña
+        nuevoVeterinario.password = await nuevoVeterinario.encryptPassword(password)
+
             // Guardar en la BD
         await nuevoVeterinario.save()
 
